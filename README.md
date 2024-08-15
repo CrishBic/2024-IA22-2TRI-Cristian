@@ -129,7 +129,7 @@ export async function connect() {
 
 ## Adicionando o banco de dados ao servidor
 
-Vá à pasta `app.ts` e troque todo o código pelo código seguinte:
+Vá à pasta `app.ts` e troque **TODO** o código pelo código seguinte:
 
 ```typescript
 import express from 'express';
@@ -163,10 +163,10 @@ app.listen(port, () => {
 
 # Testando a inserção de dados
 
-Crie um arquivo chamada `teste.http` **fora da pasta src** e adicione o seguinte codigo
+Crie um arquivo chamada `teste.http` **dentro da pasta src** e adicione o seguinte código
 
 ```http
-POST (https://localhost:3333) HTTP/1.1
+POST https://localhost:3333 HTTP/1.1
 Content-Type: application/json
 Authorization: token xxx
 
@@ -179,7 +179,9 @@ Authorization: token xxx
 
 ## Listando os usuários
 
-Adicione a rota `/users` ao servidor.
+### Adicione a rota `/users` ao servidor.
+
+No arquivo `app.ts` adicione o seguinte codigo abaixo da linha `10` com o comando de `app.use(express.static(__dirname + '/../public'))`
 
 ```typescript
 app.get('/users', async (req, res) => {
@@ -192,7 +194,9 @@ app.get('/users', async (req, res) => {
 
 ## Editando um usuário
 
-Adicione a rota `/users/:id` ao servidor.
+### Adicione a rota `/users/:id` ao servidor.
+
+No mesmo arquivo adicione o seguinte código abaixo do `app.post`
 
 ```typescript
 app.put('/users/:id', async (req, res) => {
@@ -209,7 +213,9 @@ app.put('/users/:id', async (req, res) => {
 
 ## Deletando um usuário
 
-Adicione a rota `/users/:id` ao servidor.
+### Adicione a rota `/users/:id` ao servidor.
+
+No mesmo arquivo adicione o seguinte código abaixo do `app.post`
 
 ```typescript
 app.delete('/users/:id', async (req, res) => {
@@ -221,3 +227,115 @@ app.delete('/users/:id', async (req, res) => {
   res.json({ message: 'User deleted' });
 });
 ```
+
+## Parte do Cadastro com index.html
+
+Agora crie uma pasta com o nome `public` e um arquivo `index.html`
+
+Após criar o arquivo, adicione o seguinte código no arquivo:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form>
+    <input type="text" name="name" placeholder="Nome">
+    <input type="email" name="email" placeholder="Email">
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!--  -->
+    </tbody>
+  </table>
+
+  <script>
+    // 
+    const form = document.querySelector('form')
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      const name = form.name.value
+      const email = form.email.value
+
+      await fetch('/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email })
+      })
+
+      form.reset()
+      fetchData()
+    })
+
+    // 
+    const tbody = document.querySelector('tbody')
+
+    async function fetchData() {
+      const resp = await fetch('/users')
+      const data = await resp.json()
+
+      tbody.innerHTML = ''
+
+      data.forEach(user => {
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+          <td>${user.id}</td>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>
+            <button class="excluir">excluir</button>
+            <button class="editar">editar</button>
+          </td>
+        `
+
+        const btExcluir = tr.querySelector('button.excluir')
+        const btEditar = tr.querySelector('button.editar')
+
+        btExcluir.addEventListener('click', async () => {
+          await fetch(`/users/${user.id}`, { method: 'DELETE' })
+          tr.remove()
+        })
+
+        btEditar.addEventListener('click', async () => {
+          const name = prompt('Novo nome:', user.name)
+          const email = prompt('Novo email:', user.email)
+
+          await fetch(`/users/${user.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email })
+          })
+
+          fetchData()
+        })
+
+        tbody.appendChild(tr)
+      })
+    }
+
+    fetchData()
+  </script>
+</body>
+
+</html>
+```
+
+Pare o processo do terminal com o atalho `ctrl + c` e rode o arquivo novamente com o comando no terminal `npm run dev` para rodar a tabela de usuários cadastrados no seu site.
