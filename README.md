@@ -43,15 +43,23 @@ Seu arquivo de configuração do compilador do TypeScript ficará + ou - assim:
 
 ## Configurando o `package.json`
 
-Adicione o seguinte script ao seu `package.json`
+Edite o seguinte script ao seu `package.json` na aba `"scripts":` 
+e adicionando `"dev": "npx nodemon src/app.ts"`.
+
+Quando terminar ficará assim:
 
 ```json
 "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
   "dev": "npx nodemon src/app.ts"
 }
 ```
 
+**Obs:** não esqueça de adicionar uma `,` na linha do `"test"`.
+
 ## Criando arquivo inicial do servidor
+
+Na pasta `src` vá até o arquivo `app.ts` criado anteriormente e adicione o seguinte código:
 
 ```typescript
 import express from 'express';
@@ -74,7 +82,11 @@ app.listen(port, () => {
 
 ## Inicializando o servidor
 
-```bash
+Para iniciar, você  deverá instalar a biblioteca **REST Client**, para fazer isso clique no icone de quatro quadrados que esta sendo desmontado e pesquise `REST client` e clique em instalar. Aguarde a instalaçao para seguir o proximo passo.
+
+Agora para ver sua pagina, digite o seguinte comando no Terminal.
+
+```node
 npm run dev
 ```
 
@@ -117,6 +129,8 @@ export async function connect() {
 
 ## Adicionando o banco de dados ao servidor
 
+Vá à pasta `app.ts` e troque todo o código pelo código seguinte:
+
 ```typescript
 import express from 'express';
 import cors from 'cors';
@@ -147,26 +161,21 @@ app.listen(port, () => {
 });
 ```
 
-## Testando a inserção de dados
+# Testando a inserção de dados
 
-Abra o Postman e faça uma requisição POST para `http://localhost:3333/users` com o seguinte corpo.
+Crie um arquivo chamada `teste.http` **fora da pasta src** e adicione o seguinte codigo
 
-```json
+```http
+POST (https://localhost:3333) HTTP/1.1
+Content-Type: application/json
+Authorization: token xxx
+
 {
   "name": "John Doe",
-  "email": "johndoe@mail.com"
+  "email": "john@example.com"
 }
-```
 
-Se tudo ocorrer bem, você verá a resposta com o usuário inserido.
-
-```json
-{
-  "id": 1,
-  "name": "John Doe",
-  "email": "johndoe@mail.com"
-}
-```
+````
 
 ## Listando os usuários
 
