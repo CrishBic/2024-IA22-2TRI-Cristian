@@ -1,4 +1,4 @@
-## Iniciando um projeto Node.js com TypeScript
+# Iniciando um projeto Node.js com TypeScript
 
 Crie um diretório para o projeto e acesse-o pelo vscode, abra o terminal e siga os passos abaixo.
 
@@ -15,7 +15,7 @@ touch src/app.ts
 
 Mude na linha ```"outDir": "./",``` para ```"outDir": "./dist",```
 
-**Dica:** para encontrar a linha com facilidade utiliza o ```ctrl+f5``` e digite a linha que você gostaria de encontrar.
+**Dica:** para encontrar a linha com facilidade utiliza o ```ctrl+f5``` e digite qual a linha que você gostaria de encontrar.
 
 Seu arquivo de configuração do compilador do TypeScript ficará + ou - assim:
 
@@ -71,8 +71,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+app.get('/users', async (req, res) => {
+  const db = await connect()
+  const users = await db.all('SELECT * FROM users')
+  res.json(users)
 });
 
 app.listen(port, () => {
@@ -142,8 +144,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
+app.get('/users', async (req, res) => {
+  const db = await connect()
+  const users = await db.all('SELECT * FROM users')
+  res.json(users)
 });
 
 app.post('/users', async (req, res) => {
