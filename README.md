@@ -343,3 +343,7 @@ Após criar o arquivo, adicione o seguinte código no arquivo:
 ```
 
 Pare o processo do terminal com o atalho `ctrl + c` e rode o arquivo novamente com o comando no terminal `npm run dev` para rodar a tabela de usuários cadastrados no seu site.
+
+## Finalização
+
+Agora, se tudo der certo, você pode criar, editar, deletar e listar todos os "Logins" no seu próprio localhost que foi criado como um servidor.
