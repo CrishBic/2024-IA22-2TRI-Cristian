@@ -46,6 +46,8 @@ Seu arquivo de configuração do compilador do TypeScript ficará + ou - assim:
 Edite o seguinte script ao seu `package.json` na aba `"scripts":` 
 e adicionando `"dev": "npx nodemon src/app.ts"`.
 
+**Lembrando**: não confunda com o `package-lock.json`
+
 Quando terminar ficará assim:
 
 ```json
@@ -64,6 +66,7 @@ Na pasta `src` vá até o arquivo `app.ts` criado anteriormente e adicione o seg
 ```typescript
 import express from 'express';
 import cors from 'cors';
+//import { connect } from './database'       essa parte irá funcionar depois da próxima parte estar concluida
 
 const port = 3333;
 const app = express();
@@ -81,22 +84,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 ```
-
-## Inicializando o servidor
-
-Para iniciar, você  deverá instalar a biblioteca **REST Client**, para fazer isso clique no icone de quatro quadrados que esta sendo desmontado e pesquise `REST client` e clique em instalar. Aguarde a instalaçao para seguir o proximo passo.
-
-Agora para ver sua pagina, digite o seguinte comando no Terminal.
-
-```node
-npm run dev
-```
-
-Se tudo ocorrer bem, você verá a mensagem `Server running on port 3333` no terminal.
-
-## Testando o servidor
-
-Abra o navegador e acesse `http://localhost:3333`, você verá a mensagem `Hello World`.
 
 ## Configurando o banco de dados
 
@@ -164,22 +151,6 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 ```
-
-# Testando a inserção de dados
-
-Crie um arquivo chamada `teste.http` **dentro da pasta src** e adicione o seguinte código
-
-```http
-POST https://localhost:3333 HTTP/1.1
-Content-Type: application/json
-Authorization: token xxx
-
-{
-  "name": "John Doe",
-  "email": "john@example.com"
-}
-
-````
 
 ## Listando os usuários
 
@@ -342,8 +313,22 @@ Após criar o arquivo, adicione o seguinte código no arquivo:
 </html>
 ```
 
-Pare o processo do terminal com o atalho `ctrl + c` e rode o arquivo novamente com o comando no terminal `npm run dev` para rodar a tabela de usuários cadastrados no seu site.
+## Inicializando o servidor
+
+Para iniciar, você  deverá instalar a biblioteca **REST Client**, para fazer isso clique no icone de quatro quadrados que esta sendo desmontado e pesquise `REST client` e clique em instalar. Aguarde a instalaçao para seguir o proximo passo.
+
+Agora para ver sua pagina, digite o seguinte comando no Terminal.
+
+```node
+npm run dev
+```
+
+Se tudo ocorrer bem, você verá a mensagem `Server running on port 3333` no terminal.
+
+Não esqueça de transformar a porta de privada para pública
+
+Para deixar a sua porta `public` é bem simples, só clicar no seu `link`, ou `localhost`, com o botão direito do mouse e ir até a aba `visibilidade da porta` e clicar em `public`.
 
 ## Finalização
 
-Agora, se tudo der certo, você pode criar, editar, deletar e listar todos os "Logins" no seu próprio localhost que foi criado como um servidor.
+Agora, se tudo der certo, você pode criar, editar, deletar e listar todos os "Logins" no seu próprio localhost que foi criado como um servidor em typescript.
